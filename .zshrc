@@ -1,4 +1,7 @@
 # If you come from bash you might have to change your $PATH.
+# TODO
+# orig from linux:
+# export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH:$HOME/programs/acs-engine-v0.15.2-darwin-amd64
 
 # Path to your oh-my-zsh installation.
@@ -51,7 +54,7 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git colored-man-pages ssh-agent docker docker-compose kubectl)
+plugins=(git colored-man-pages ssh-agent docker docker-compose kubectl zsh-autosuggestions zsh-syntax-highlighting)
 
 zstyle :omz:plugins:ssh-agent identities id_rsa-github.com 
 
