@@ -6,3 +6,4 @@
 # ln -sf $(pwd)/.zshrc $HOME/.zshrc
 # ln -sf $(pwd)/.tmux.conf $HOME/.tmux.conf
 
+stow -vSt  ~ git tmux zsh
