@@ -1,29 +1,39 @@
 # If you come from bash you might have to change your $PATH.
-# TODO
-# orig from linux:
-# export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH:$HOME/programs/acs-engine-v0.15.2-darwin-amd64
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/szilard/.oh-my-zsh
+export ZSH="/home/szilard/.oh-my-zsh"
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="agnoster"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
 
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -42,21 +52,39 @@ ZSH_THEME="agnoster"
 # much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
+DEFAULT_USER="szilard"
+
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git colored-man-pages ssh-agent docker docker-compose kubectl zsh-autosuggestions zsh-syntax-highlighting)
-
-zstyle :omz:plugins:ssh-agent identities id_rsa-github.com 
+plugins=(
+  git
+  archlinux
+  colored-man-pages
+  docker
+  docker-compose
+  kubectl
+#  zsh-autosuggestions
+  zsh-syntax-highlighting
+  aws
+  z
+  terraform
+  tmux
+  stack
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -65,7 +93,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
+# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -77,9 +105,6 @@ export LANG=en_US.UTF-8
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -88,24 +113,37 @@ export LANG=en_US.UTF-8
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+# Tell ssh to use gpg-agent
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
 
-alias sbtd="sbt -mem 2048 -jvm-debug 5005"
-alias sbt="sbt -mem 2048"
-alias dockerstat="docker stats $(docker ps -a --format '{{.Names}}')"
-alias k="kubectl"
-
-DEFAULT_USER="szilard"
-
-
-# TODO autoload bashcompinit && bashcompinit
-# TODO source /Users/szilard/lib/azure-cli/az.completion
-
-# start z.sh
-# TODO . /usr/local/etc/profile.d/z.sh
-
-# helm
+# Helm
 source <(helm completion zsh)
 
-# minikube
+source /usr/share/nvm/init-nvm.sh
+
+complete -C '/usr/local/bin/aws_completer' aws
+
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C $HOME/bin/terraform terraform
+
+source ~/moda-aws-cli-sso.sh
+SHOW_AWS_PROMPT=false
+
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin:$HOME/git/github.com/kovszilard/git-hooks/bin"
+if [ -e /home/szilard/.nix-profile/etc/profile.d/nix.sh ]; then . /home/szilard/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+# Minikube
 source <(minikube completion zsh)
 
+# Github Cli
+source <(gh completion -s zsh)
+
+export PATH=$HOME/.cabal/bin:$HOME/.ghcup/bin:$HOME/bin:$HOME/programs/ngrok:$HOME/programs/bitcoin-0.21.1/bin:$PATH
+
+export EDITOR=/usr/bin/vim
+export VISUAL=/usr/bin/vim
