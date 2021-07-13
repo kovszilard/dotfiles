@@ -1,3 +1,11 @@
 [user]
 	email = kovszilard@gmail.com
 	name = Szilard Kovacs
+	signingkey = 7DB249D8E677DBCA
+[commit]
+	gpgsign = true
+[pager]
+	branch = false
+[pull]
+	rebase = false
+
