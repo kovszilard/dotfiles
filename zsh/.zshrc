@@ -150,8 +150,8 @@ export PATH=$HOME/.cabal/bin:$HOME/.ghcup/bin:$HOME/bin:$HOME/programs/ngrok:$HO
 export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/vim
 
-echo "Updating dotfiles"
-cd .dotfiles
-git pull
-cd ~
+# echo "Updating dotfiles"
+# cd .dotfiles
+# git pull
+# cd ~
 
