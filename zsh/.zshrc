@@ -115,8 +115,10 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 # Tell ssh to use gpg-agent
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-gpgconf --launch gpg-agent
+if [[ $(hostname) == "szilard-xps157590" ]]; then
+	export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+	gpgconf --launch gpg-agent
+fi
 
 # Helm
 source <(helm completion zsh)
@@ -147,3 +149,9 @@ export PATH=$HOME/.cabal/bin:$HOME/.ghcup/bin:$HOME/bin:$HOME/programs/ngrok:$HO
 
 export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/vim
+
+echo "Updating dotfiles"
+cd .dotfiles
+git pull
+cd ~
+
